@@ -1,0 +1,9 @@
+1. Namespace created:
+{{- range .Values.namespaceList}}
+  - {{ . }}
+{{- end}}
+
+2. Deployments created:
+{{- range $deployment, $definition := .Values.deploymentList}}
+  - {{ $deployment }}
+{{- end}}

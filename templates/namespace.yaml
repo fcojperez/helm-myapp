@@ -1,0 +1,11 @@
+---
+{{- range .Values.namespaceList }}
+apiVersion: v1
+kind: Namespace
+metadata:
+  creationTimestamp: null
+  name: {{. }}
+spec: {}
+status: {}
+{{- end}}
+...

@@ -1,0 +1,40 @@
+---
+{{- range $deployment, $definition := .Values.deploymentList}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ $deployment }}
+  namespace: {{ $definition.namespace }}
+  labels:
+    {{- include "myapp.labels" . | nindent 4 }}
+spec:
+  replicas: {{ $definition.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "myapp.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with $definition.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "myapp.labels" . | nindent 8 }}
+        {{- with $definition.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with $definition.image.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: {{ $definition.image.repository }}
+          image: "{{ $definition.image.repository }}:{{ $definition.image.tag }}"
+          imagePullPolicy: {{ $definition.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ $definition.service.port }}
+              protocol: TCP
+{{- end }}
+...
