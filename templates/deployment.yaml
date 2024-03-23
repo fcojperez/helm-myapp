@@ -1,5 +1,6 @@
----
+
 {{- range $deployment, $definition := .Values.deploymentList}}
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -20,9 +21,6 @@ spec:
       {{- end }}
       labels:
         {{- include "myapp.labels" . | nindent 8 }}
-        {{- with $definition.podLabels }}
-        {{- toYaml . | nindent 8 }}
-        {{- end }}
     spec:
       {{- with $definition.image.imagePullSecrets }}
       imagePullSecrets:
@@ -32,9 +30,5 @@ spec:
         - name: {{ $definition.image.repository }}
           image: "{{ $definition.image.repository }}:{{ $definition.image.tag }}"
           imagePullPolicy: {{ $definition.image.pullPolicy }}
-          ports:
-            - name: http
-              containerPort: {{ $definition.service.port }}
-              protocol: TCP
-{{- end }}
 ...
+{{- end }}

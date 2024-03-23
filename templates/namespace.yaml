@@ -1,11 +1,18 @@
----
 {{- range .Values.namespaceList }}
+{{- $secret := . -}}
+{{- if not (lookup "v1" "Namespace" "" $secret) }}
+---
 apiVersion: v1
 kind: Namespace
 metadata:
   creationTimestamp: null
-  name: {{. }}
+  name: {{ $secret }}
+  labels:
+    {{- include "myapp.labels" . | nindent 4 }}
+  annotations:
+    helm.sh/resource-policy: keep
 spec: {}
 status: {}
-{{- end}}
 ...
+{{- end}}
+{{- end}}

@@ -35,6 +35,7 @@ Common labels
 */}}
 {{- define "myapp.labels" -}}
 app: myapp
+app.cadadosxtres.io/type: playground
 {{- end }}
 
 {{/*

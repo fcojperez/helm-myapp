@@ -1,4 +1,4 @@
-1. Namespace created:
+1. Namespace created and they will kept:
 {{- range .Values.namespaceList}}
   - {{ . }}
 {{- end}}
@@ -7,3 +7,5 @@
 {{- range $deployment, $definition := .Values.deploymentList}}
   - {{ $deployment }}
 {{- end}}
+
+3. Pod created: test-pod in namespace playground-test

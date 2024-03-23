@@ -6,21 +6,21 @@ replicaCount: 1
 
 namespaceList:
 - playground
-- test
+- playground-test
+
 
 deploymentList:
-  mayapp:
+  myapp:
     namespace: playground
     image:
       repository: nginx
       pullPolicy: IfNotPresent
       imagePullSecrets: []
       # Overrides the image tag whose default is the chart appVersion.
-      tag: ""
+      tag: "latest"
     replicaCount: 1
     podAnnotations: {}
-    podLabels:
-      trusted: true
+    podLabels: {}
     service:
       type: ClusterIP
       port: 80
@@ -31,7 +31,7 @@ deploymentList:
       pullPolicy: IfNotPresent
       imagePullSecrets: []
       # Overrides the image tag whose default is the chart appVersion.
-      tag: ""
+      tag: "latest"
     replicaCount: 1
     podAnnotations: {}
     podLabels: {}
