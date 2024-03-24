@@ -1,3 +1,5 @@
+# Notes
+
 1. Namespace created and they will kept:
 {{- range .Values.namespaceList}}
   - {{ . }}
@@ -9,3 +11,5 @@
 {{- end}}
 
 3. Pod created: test-pod in namespace playground-test
+
+4. The test connection pod is created in playground-test

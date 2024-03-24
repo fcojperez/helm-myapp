@@ -1,7 +1,8 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: "{{ include "myapp.fullname" . }}-test-connection"
+  name: "myapp-test-connection"
+  namespace: playground-test
   labels:
     {{- include "myapp.labels" . | nindent 4 }}
   annotations:
@@ -11,5 +12,5 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      args: ['{{ include "myapp.fullname" . }}.playground.svc.cluster.local:{{ .Values.deploymentList.myapp.service.port }}']
+      args: ['myapp.playground.svc.cluster.local:{{ .Values.deploymentList.myapp.service.port }}']
   restartPolicy: Never
