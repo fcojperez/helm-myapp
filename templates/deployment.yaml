@@ -1,4 +1,3 @@
-
 {{- range $deployment, $definition := .Values.deploymentList}}
 ---
 apiVersion: apps/v1
@@ -6,13 +5,11 @@ kind: Deployment
 metadata:
   name: {{ $deployment }}
   namespace: {{ $definition.namespace }}
-  labels:
-    {{- include "myapp.labels" . | nindent 4 }}
 spec:
   replicas: {{ $definition.replicaCount }}
   selector:
     matchLabels:
-      {{- include "myapp.selectorLabels" . | nindent 6 }}
+      app: {{ $deployment }}
   template:
     metadata:
       {{- with $definition.podAnnotations }}
@@ -20,14 +17,14 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "myapp.labels" . | nindent 8 }}
+        app: {{ $deployment }}
     spec:
       {{- with $definition.image.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       containers:
-        - name: {{ $definition.image.repository }}
+        - name: {{ $definition.containerName }}
           image: "{{ $definition.image.repository }}:{{ $definition.image.tag }}"
           imagePullPolicy: {{ $definition.image.pullPolicy }}
 ...

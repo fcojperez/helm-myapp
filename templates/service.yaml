@@ -1,16 +1,13 @@
+---
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "myapp.fullname" . }}
+  name: myapp
   namespace: playground
-  labels:
-    {{- include "myapp.labels" . | nindent 4 }}
 spec:
-  type: {{ .Values.service.type }}
-  ports:
-    - port: {{ .Values.service.port }}
-      targetPort: {{ .Values.service.port }}
-      protocol: TCP
-      name: http
   selector:
-    {{- include "myapp.selectorLabels" . | nindent 4 }}
+    app: myapp
+  ports:
+  - port: 80
+    targetPort: 80
+...
