@@ -23,9 +23,25 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      initContainers:
+      - image: busybox
+        name: busybox
+        command:
+        - sh
+        - -c
+        - echo "<html><body><p>Welcome!!</p><p>$(hostname)</p></body></html>" > /data/index.html
+        volumeMounts:
+        - name: data
+          mountPath: /data
       containers:
         - name: {{ $definition.containerName }}
           image: "{{ $definition.image.repository }}:{{ $definition.image.tag }}"
           imagePullPolicy: {{ $definition.image.pullPolicy }}
+          volumeMounts:
+          - name: data
+            mountPath: /usr/share/nginx/html/
+      volumes:
+      - name: data
+        emptyDir: {}
 ...
 {{- end }}
